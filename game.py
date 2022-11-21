@@ -27,9 +27,9 @@ class Game:
   def showPieces(self, surface):
     for row in range(rows):
       for col in range(columns):
-        if Board().squares[row][col].hasPiece():
-          piece = Board().squares[row][col].piece
-
+        if squares[row][col].hasPiece():
+          piece = squares[row][col].piece
+          
           img = pygame.image.load(piece.texture)
           img = pygame.transform.scale(img, (squareSize,squareSize))
-          surface.blit(img, (squareSize * Board().squares[row][col].row + 90, squareSize * Board().squares[row][col].col + 40))
+          surface.blit(img, (squareSize * squares[row][col].row + 90, squareSize * squares[row][col].col + 40))
