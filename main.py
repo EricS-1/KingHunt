@@ -1,5 +1,6 @@
 import pygame
 import sys
+from button import Button
 
 from button import Button
 from startGame import StartGame
@@ -43,7 +44,7 @@ def newGame():
           mainMenu()
 
     pygame.display.update()
-    
+
 def options():
   pygame.display.set_caption("Options")
 
@@ -332,3 +333,4 @@ def mainMenu():
     pygame.display.update()
 
 StartGame()
+#mainMenu()
