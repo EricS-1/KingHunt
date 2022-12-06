@@ -9,16 +9,12 @@ class Piece:
     self.color = color
     self.healthPoints = healthPoints
     self.value = value
-    self.moves = []
     self.setTexture()
 
   def setTexture(self):
     self.texture = os.path.join("pieces", str(self.color) + str(self.name) + '.png')
 
-  def addMove(self, move):
-    self.moves.append(move)
-
-class Pawn(Piece):
+class Pawn(Piece): 
   def __init__(self, color):
     super().__init__('pawn', color, 1, 1)
 

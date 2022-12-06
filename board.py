@@ -6,102 +6,64 @@ from move import Move
 class Board:
 
   def __init__(self):
-    self.initialPlayerRow = 0
-    self.initialPlayerCol = 7
-    self.create()
-    self.addPieces('black')
-
-  def possibleMoves(self, piece, row, col):
-    def straightMoves(incrs):
-      for incri in incriments:
-        rowIncri, colIncri = incri
-        possibleMoveRow = row + rowIncri
-        possibleMoveCol = col + colIncri
-
-        while True:
-          if Square.inRange(possibleMoveRow,possibleMoveCol):
-
-            initial = Square(row, col)
-            final = Square(possibleMoveRow, possibleMoveCol)
-            
-            if squares[possibleMoveRow][possibleMoveCol].isEmpty():
-              Piece().addMove((initial, final))
-
-            if squares[possibleMoveRow][possibleMoveCol].isPlayer():
-              Piece().addMove((initial, final))
-              break
-
-            else:
-              break
-
-          possibleMoveRow = row + rowIncri
-          possibleMoveCol = col + colIncri 
-          
-    def nonIncrimentalMoves(moveList):
-      for possibleMove in moveList:
-        moveRow, moveCol = possibleMove
-
-        if Square.inRange(moveRow,moveCol):
-          if squares[moveRow][moveCol].isEmptyOrPlayer():
-            
-            initial = Square(row, col)
-            final = Square(moveRow, moveCol)
-
-            Piece().addMove((initial, final))
-      
-    def rookMoves():
-      straightMoves([(-1, 0), (1, 0), (0, 1), (0,-1)])
-
-    def bishopMoves():
-      straightMoves([(-1, 1), (-1, -1), (1, 1), (1,-1)])
-
-    def queenMoves():
-      rookMoves()
-      bishopMoves()
-
-    def kingMoves():
-      possibleKingMoves = [(row-1, col-1), (row-1, col), (row-1, col+1), (row,col+1), (row+1, col+1), (row+1, col), (row+1, col-1), (row, col-1)]
-      nonIncrimentalMoves(possibleKingMoves)
-      
-    def pawnMoves():
-      if Square.inRange(row, col + 1) and squares[row][col + 1].isEmpty():
-
-        initial = Square(row, col)
-        final = Square(row, col + 1)
-        
-        Piece().addMove((initial, final))
-
-      diagonalMoves = [(row + 1, col + 1), (row - 1, col + 1)]
-
-      nonIncrimentalMoves(diagonalMoves)
-  
-    def knightMoves():
-      lShape = [(row-2, col+1), (row-1, col+2), (row+1, col+2),(row+2, col+1),(row+2, col-1),(row+1, col-2),(row-2, col-1),(row-1, col-2)]
-
-      nonIncrimentalMoves(lShape)          
-    
-    if isinstance(piece, Pawn):
-      pawnMoves()
-    if isinstance(piece, Knight):
-      knightMoves()
-    if isinstance(piece, Bishop):
-      bishopMoves()
-    if isinstance(piece, Rook):
-      rookMoves()
-    if isinstance(piece, Queen):
-      queenMoves()
-    if isinstance(piece, King):
-      kingMoves()   
+    self.create()  
   
   def create(self):
     for row in range(rows):
       for col in range(columns):
         squares[row][col] = Square(row,col)
 
-  def addPieces(self, colour):
+  
+  def level1(self, colour):
     
-    squares[self.initialPlayerRow][self.initialPlayerCol] = Square(self.initialPlayerRow, self.initialPlayerCol, Player())
+    squares[0][7] = Square(0, 7, Player())
     squares[4][1] = Square(4, 1, Pawn(colour))
     squares[1][0] = Square(1, 0, Bishop(colour))
     squares[4][3] = Square(4, 3, King(colour))
     squares[3][4] = Square(3, 4, Rook(colour))
+
+  def level2(self, colour):
+    
+    squares[1][7] = Square(1, 7, Player())
+    squares[0][1] = Square(0, 1, Pawn(colour))
+    squares[1][1] = Square(1, 1, Pawn(colour))
+    squares[3][0] = Square(3, 0, Queen(colour))
+    squares[5][0] = Square(5, 0, Rook(colour))
+    squares[6][0] = Square(6, 0, King(colour))
+    squares[6][1] = Square(6, 1, Bishop(colour))
+    squares[7][1] = Square(7, 1, Pawn(colour))
+    squares[3][2] = Square(3, 2, Pawn(colour))
+    squares[5][2] = Square(5, 2, Pawn(colour))
+    squares[5][3] = Square(5, 3, Pawn(colour))
+    squares[2][4] = Square(2, 4, Rook(colour))
+
+  def level3(self, colour):
+
+    squares[2][7] = Square(2, 7, Player())
+    squares[0][2] = Square(0, 2, Pawn(colour))
+    squares[1][3] = Square(1, 3, Pawn(colour))
+    squares[2][3] = Square(2, 3, Pawn(colour))
+    squares[1][2] = Square(1, 2, King(colour))
+    squares[2][2] = Square(2, 2, Queen(colour))
+    squares[3][1] = Square(3, 1, Rook(colour))
+    squares[3][2] = Square(3, 2, Rook(colour))
+    squares[3][3] = Square(3, 3, Bishop(colour))
+    squares[7][2] = Square(7, 2, Pawn(colour))
+    squares[6][3] = Square(6, 3, Pawn(colour))
+
+  def level4(self, colour):
+
+    squares[3][7] = Square(3, 7, Player())
+    
+    for i in range(8):
+      squares[i][1] = Square(i, 1, Pawn(colour))
+
+    squares[0][0] = Square(0, 0, Rook(colour))
+    squares[1][0] = Square(1, 0, Knight(colour))
+    squares[2][0] = Square(2, 0, Bishop(colour))
+    squares[3][0] = Square(3, 0, Queen(colour))
+    squares[4][0] = Square(4, 0, King(colour))
+    squares[5][0] = Square(5, 0, Bishop(colour))
+    squares[6][0] = Square(6, 0, Knight(colour))
+    squares[7][0] = Square(7, 0, Rook(colour))
+    

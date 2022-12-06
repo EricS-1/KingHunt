@@ -1,30 +1,29 @@
 import pygame
 import time
+import sys
 
+from button import Button
 from const import *
 from board import Board
+#from dragger import Dragger 
 
 class Game:
 
   def __init__(self):
     pass
+    #self.dragger= Dragger
     
   def board(self, surface):
-    
+    #prints board on screen
     surface.fill(backgroundColor)
 
-    for row in range(rows):
-      for column in range(columns):
-        if (row + column) % 2 == 0:
-          colour = (201,201,177)
-        else:
-          colour = (147,148,141)
-
-        chessSquare = pygame.Rect(squareSize * row + 90, squareSize * column + 40, squareSize, squareSize)
-        
-        pygame.draw.rect(surface, colour, chessSquare)
-
+    img = pygame.image.load('board.png')
+    img = pygame.transform.scale(img, (squareSize * 8, squareSize * 8))
+    screen.blit(img, (9/50 * width, 2/25 * height))
+  
   def showPieces(self, surface):
+
+    #shows pieces on the screen
     for row in range(rows):
       for col in range(columns):
         if squares[row][col].hasPiece():
@@ -32,4 +31,4 @@ class Game:
           
           img = pygame.image.load(piece.texture)
           img = pygame.transform.scale(img, (squareSize,squareSize))
-          surface.blit(img, (squareSize * squares[row][col].row + 90, squareSize * squares[row][col].col + 40))
+          surface.blit(img, (squareSize * squares[row][col].row + 9/50 * (width), squareSize * squares[row][col].col + 2/25 * (height)))
