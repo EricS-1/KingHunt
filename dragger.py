@@ -1,7 +1,7 @@
 import pygame
 
 from const import *
-
+#Created and edited by Zara
 class Dragger:
   '''
     An object that moves the player's piece around by clicking and dragging to the desired position
