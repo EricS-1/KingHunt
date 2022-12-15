@@ -4,6 +4,7 @@ from button import Button
 from startGame import StartGame
 import cv2
 
+#Created and edited by Ashwin
 pygame.init()
 
 # create game window
