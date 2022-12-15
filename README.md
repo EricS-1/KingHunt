@@ -1,11 +1,11 @@
 # KingHunt
 
-How to run:
+##How to run:
 	
 
 King Hunt is a 2 dimensional chess shooter. The player is a single king against entire enemy forces who must solve through puzzles and shoot his way to a checkmate. The game features an 8x8 board, a head up display, 6 unique enemy pieces and 4 levels that involve strategic movement and attacks to successfully pass.
 
-Pieces:
+##Pieces:
 
 	Pawn:
 	Can only move forward one square and can only attack diagonally 
@@ -26,7 +26,7 @@ Pieces:
 	Moves and attacks horizontally, vertically, and diagonally only one square
 
 
-Player Movement:
+##Player Movement:
 
 	You control the weakest piece on the board, the king, and can only move one square at a time. However, equipped with a trusty slingshot you might stand a chance against waves of enemies
 
