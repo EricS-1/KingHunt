@@ -8,6 +8,7 @@ from const import *
 
 
 pygame.init()
+pygame.font.init()
 
 def starCutscene():
   '''code'''
@@ -332,5 +333,5 @@ def mainMenu():
 
     pygame.display.update()
 
-StartGame()
 #mainMenu()
+StartGame()

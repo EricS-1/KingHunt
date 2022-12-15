@@ -1,20 +1,75 @@
 from const import *
 from square import Square
 from piece import *
-from move import Move
 
 class Board:
+  '''
+  Board object that sets the pieces to its repsective squares on the board
+
+  Attributes 
+  ----------
+  nothing
+
+  Methods
+  -------
+  addMove() -> returns none
+    adds move to a list
+    
+  possibleMoves(piece, row, col) -> returns none
+    generates all the possible moves of the piece
+
+  makeMove() -> bool
+    searches for a possible move that attacks the player
+
+  makeRandomMove() -> returns none
+    make a random possible move
+  '''
 
   def __init__(self):
+    '''
+  	Constructor to build the board object and runs the create() method
+   
+  	Parameters
+  	----------
+    nothing
+    
+    Returns
+    ----------
+    nothing
+  	'''
+    
     self.create()  
   
   def create(self):
+    '''
+  	Sets each square on the board as an object
+   
+  	Parameters
+  	----------
+    nothing
+    
+    Returns
+    ----------
+    nothing
+  	'''
     for row in range(rows):
       for col in range(columns):
         squares[row][col] = Square(row,col)
 
   
   def level1(self, colour):
+    '''
+  	Sets the squares on the board to contain pieces for the first level
+   
+  	Parameters
+  	----------
+    colour: str
+      the colour of the enemy pieces
+    
+    Returns
+    ----------
+    nothing
+  	'''
     
     squares[0][7] = Square(0, 7, Player())
     squares[4][1] = Square(4, 1, Pawn(colour))
@@ -23,6 +78,18 @@ class Board:
     squares[3][4] = Square(3, 4, Rook(colour))
 
   def level2(self, colour):
+    '''
+  	Sets the squares on the board to contain pieces for the second level
+   
+  	Parameters
+  	----------
+    colour: str
+      the colour of the enemy pieces
+    
+    Returns
+    ----------
+    nothing
+  	'''
     
     squares[1][7] = Square(1, 7, Player())
     squares[0][1] = Square(0, 1, Pawn(colour))
@@ -38,6 +105,18 @@ class Board:
     squares[2][4] = Square(2, 4, Rook(colour))
 
   def level3(self, colour):
+    '''
+  	Sets the squares on the board to contain pieces for the third level
+   
+  	Parameters
+  	----------
+    colour: str
+      the colour of the enemy pieces
+    
+    Returns
+    ----------
+    nothing
+  	'''
 
     squares[2][7] = Square(2, 7, Player())
     squares[0][2] = Square(0, 2, Pawn(colour))
@@ -52,6 +131,18 @@ class Board:
     squares[6][3] = Square(6, 3, Pawn(colour))
 
   def level4(self, colour):
+    '''
+  	Sets the squares on the board to contain pieces for the fourth level
+   
+  	Parameters
+  	----------
+    colour: str
+      the colour of the enemy pieces
+    
+    Returns
+    ----------
+    nothing
+  	'''
 
     squares[3][7] = Square(3, 7, Player())
     

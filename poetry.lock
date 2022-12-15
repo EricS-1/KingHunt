@@ -1,7 +1,26 @@
 [[package]]
+name = "actions"
+version = "1.0.3"
+description = "Declarative actions"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+bunch = "1.0.1"
+
+[[package]]
 name = "alien-invasion1"
 version = "1.0.0"
 description = "这是我第一阶段的项目"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "bunch"
+version = "1.0.1"
+description = "A dot-accessible dictionary (a la JavaScript objects)"
 category = "main"
 optional = false
 python-versions = "*"
@@ -25,9 +44,11 @@ python-versions = ">=3.6"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "3225978f7fa8cde148b5565781c2c967ca136ee9e95597d941a5c1cbf9651cdb"
+content-hash = "24a7ee6900b6a58a4fefc92e3d6b1b46f3656600c25da8b5392986f0a89dcdd0"
 
 [metadata.files]
+actions = []
 alien-invasion1 = []
+bunch = []
 move = []
 pygame = []
