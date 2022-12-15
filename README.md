@@ -1,10 +1,12 @@
 # KingHunt
 
-## How to run:
-Open the 
+## How to Run/Install:
+Open the KingHunt.zip file and search for the KingHunt.exe file to run. You can install this respoitory by clicking on the green code button and then Downlaod ZIP.
 
 ## About the Game:
 King Hunt is a 2 dimensional chess shooter. The player is a single king against entire enemy forces who must solve through puzzles and shoot his way to a checkmate. The game features an 8x8 board, a head up display, 6 unique enemy pieces and 4 levels that involve strategic movement and attacks to successfully pass.
+
+The goal of the game is to complete all the levels flawlessly, reaching a checkmate in every puzzle without dying.
 
 ## Pieces:
 
@@ -31,7 +33,7 @@ King Hunt is a 2 dimensional chess shooter. The player is a single king against 
 
 	You control the weakest piece on the board, the king, and can only move one square at a time. However, equipped with a trusty slingshot you might stand a chance against waves of enemies
 
-	Left click: pick up the player to drag and release to move 
+	Left click: pick up the player to drag and release to move
 
  
 
