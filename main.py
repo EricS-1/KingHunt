@@ -1,40 +1,58 @@
 import pygame
 import sys
 from button import Button
-
-from button import Button
 from startGame import StartGame
-from const import *
-
+import cv2
 
 pygame.init()
-pygame.font.init()
 
-def starCutscene():
-  '''code'''
-  StartGame()
-  
+# create game window
+screenWIDTH = 1920
+screenHEIGHT = 1080
+
+screen = pygame.display.set_mode((screenWIDTH, screenHEIGHT))
+
+menu_bg = pygame.image.load("menu assets/menu.png")
+new_game_bg = pygame.image.load("menu assets/new_game.png")
+options_bg = pygame.image.load("menu assets/options_background.jpg")
+stats_bg = pygame.image.load("menu assets/scroll.png")
+
+playTime = 0
+enemiesDefeated = 0
+timesDefeated = 0
+completionPercent = 0
+masterVol = 100
+musicVol = 100
+effectsVol = 100
+fpsDisplay = 'Yes'
+status = False
+
 def get_font(size):
-  return pygame.font.Font("images/font.ttf", size)
+  return pygame.font.Font("menu assets/font.ttf", size)
+
+def startCutscene():
+  pygame.display.set_caption("Intro Cutscene")
+  StartGame()
 
 def newGame():
-
   pygame.display.set_caption("New Game")
 
   while True:
 
     newPosition = pygame.mouse.get_pos()
 
-    screen.fill("green")
+    screen.blit(new_game_bg, (0,0))
 
-    newText = get_font(45).render("Your story begins now.", True, "White")
-    newRect = newText.get_rect(center=(960,460))
+    newText = get_font(31).render("Your story begins now.", True, "White")
+    newRect = newText.get_rect(center=(965,460))
     screen.blit(newText,newRect)
+    
+    new_game_begin = Button(image= None, pos=(980,565), textInput= "Begin", font= get_font(52), baseColor= "white", hoveringColor= "green")
+    newBack = Button(image= None, pos=(980,660), textInput= "Back", font= get_font(45), baseColor= "white", hoveringColor= "green")
 
-    newBack = Button(image= None, pos=(960,660), textInput= "Back", font= get_font(75), baseColor= "white", hoveringColor= "black")
-
-    newBack.changeColor(newPosition)
-    newBack.update(screen)
+    for button in [new_game_begin, newBack]:
+      button.changeColor(newPosition)
+      button.update(screen)
 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -43,28 +61,29 @@ def newGame():
       if event.type == pygame.MOUSEBUTTONDOWN:
         if newBack.checkForInput(newPosition):
           mainMenu()
+        if new_game_begin.checkForInput(newPosition):
+          startCutscene()
 
     pygame.display.update()
-
+    
 def options():
   pygame.display.set_caption("Options")
 
   while True:
     optionsPosition = pygame.mouse.get_pos()
 
-    screen.fill("white")
+    screen.blit(options_bg, (0,0))
 
     optionsText = get_font(45).render("Options Menu", True, "Black")
     optionsRect = optionsText.get_rect(center=(960,260))
     screen.blit(optionsText, optionsRect)
 
-    optionsGameplay = Button(image=None, pos=(960,360), textInput= "GAMEPLAY", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
-    optionsVideo = Button(image=None, pos=(960,460), textInput= "VIDEO", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
-    optionsAudio = Button(image=None, pos=(960,560), textInput= "AUDIO", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
-    optionsControls = Button(image=None, pos=(960,660), textInput= "CONTROLS", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
-    optionsBack = Button(image=None, pos=(960, 760), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
+    optionsVideo = Button(image=None, pos=(960,360), textInput= "VIDEO", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
+    optionsAudio = Button(image=None, pos=(960,460), textInput= "AUDIO", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
+    optionsControls = Button(image=None, pos=(960,560), textInput= "CONTROLS", font= get_font(42), baseColor= "Black", hoveringColor= "Green")
+    optionsBack = Button(image=None, pos=(960, 660), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
 
-    for button in [optionsGameplay, optionsVideo, optionsAudio, optionsControls, optionsBack]:
+    for button in [optionsVideo, optionsAudio, optionsControls, optionsBack]:
       button.changeColor(optionsPosition)
       button.update(screen)
       
@@ -73,8 +92,6 @@ def options():
         pygame.quit()
         sys.exit()
       if event.type == pygame.MOUSEBUTTONDOWN:
-        if optionsGameplay.checkForInput(optionsPosition):
-          gameplay()
         if optionsVideo.checkForInput(optionsPosition):
           video()
         if optionsAudio.checkForInput(optionsPosition):
@@ -86,41 +103,6 @@ def options():
 
     pygame.display.update()
 
-def gameplay():
-  pygame.display.set_caption("Gameplay Options")
-
-  while True:
-    gameplayPosition = pygame.mouse.get_pos()
-
-    screen.fill("white")
-
-    gameplayText = get_font(45).render("Gameplay Options", True, "Black")
-    gameplayRect = gameplayText.get_rect(center=(960,260))
-    screen.blit(gameplayText, gameplayRect)
-    tutorialText = get_font(34).render("Display Tutorial Messages", True, "Black")
-    tutorialRect = tutorialText.get_rect(center=(480, 400))
-    screen.blit(tutorialText, tutorialRect)
-    brightText = get_font(41).render("Brightness", True, "Black")
-    brightRect = brightText.get_rect(center=(261,500))
-    screen.blit(brightText, brightRect)
-    fpsText = get_font(45).render("Display FPS", True, "Black")
-    fpsRect = fpsText.get_rect(center=(304,600))
-    screen.blit(fpsText, fpsRect)
-    
-    gameplayBack = Button(image=None, pos=(960, 750), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
-
-    gameplayBack.changeColor(gameplayPosition)
-    gameplayBack.update(screen)
-      
-    for event in pygame.event.get():
-      if event.type == pygame.QUIT:
-        pygame.quit()
-        sys.exit()
-      if event.type == pygame.MOUSEBUTTONDOWN:
-        if gameplayBack.checkForInput(gameplayPosition):
-          options()
-
-    pygame.display.update()
 
 def video(): 
   pygame.display.set_caption("Video Options")
@@ -136,15 +118,13 @@ def video():
     resText = get_font(45).render("Resolution", True, "Black")
     resRect = resText.get_rect(center=(380,400))
     screen.blit(resText, resRect)
-    chosenText = get_font(35).render(str(screenWIDTH) + "x" + str(screenHEIGHT), True, "Black")
-    chosenRect = chosenText.get_rect(center=(960,400))
+    chosenText = get_font(35).render("> " + str(screenWIDTH) + "x" + str(screenHEIGHT) + " <", True, "Black")
+    chosenRect = chosenText.get_rect(center=(1360,400))
     screen.blit(chosenText, chosenRect)
     
     videoBack = Button(image=None, pos=(960, 520), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
-    resLeft = Button(image=None, pos=(720, 400), textInput= "<-", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
-    resRight = Button(image=None, pos=(1200, 400), textInput= "->", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
 
-    for button in [videoBack, resLeft, resRight]:
+    for button in [videoBack]:
       button.changeColor(videoPosition)
       button.update(screen)
       
@@ -160,7 +140,11 @@ def video():
 
 def audio():
   pygame.display.set_caption("Audio Options")
-
+  
+  global masterVol
+  global musicVol
+  global effectsVol
+  
   while True:
     audioPosition = pygame.mouse.get_pos()
 
@@ -170,20 +154,35 @@ def audio():
     audioRect = audioText.get_rect(center=(960,260))
     screen.blit(audioText, audioRect)
     masterText = get_font(45).render("Master Volume", True, "Black")
-    masterRect = masterText.get_rect(center=(380,360))
+    masterRect = masterText.get_rect(center=(360,360))
     screen.blit(masterText, masterRect)
     musicText = get_font(45).render("Music Volume", True, "Black")
-    musicRect = musicText.get_rect(center=(380,460))
+    musicRect = musicText.get_rect(center=(340,465))
     screen.blit(musicText, musicRect)
-    sfxText = get_font(35).render("Sound Effects Volume", True, "Black")
-    sfxRect = sfxText.get_rect(center=(380,560))
-    screen.blit(sfxText, sfxRect)
+    effectsText = get_font(35).render("Sound Effects Volume", True, "Black")
+    effectsRect = effectsText.get_rect(center=(415,560))
+    screen.blit(effectsText, effectsRect)
+    masterVolume = get_font(35).render(str(masterVol) + "%", True, "Black")
+    master_volume_rect = masterVolume.get_rect(center=(1510,360))
+    screen.blit(masterVolume, master_volume_rect)
+    musicVolume = get_font(35).render(str(musicVol) + "%", True, "Black")
+    music_volume_rect = musicVolume.get_rect(center=(1510,465))
+    screen.blit(musicVolume, music_volume_rect)
+    effectsVolume = get_font(35).render(str(effectsVol) + "%", True, "Black")
+    effects_volume_rect = effectsVolume.get_rect(center=(1510,560))
+    screen.blit(effectsVolume, effects_volume_rect)
     
+    audioBack = Button(image=None, pos=(960, 660), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
+    effectsLeft = Button(image=None, pos=(1250, 560), textInput= "<-" , font= get_font(55), baseColor= "Black", hoveringColor= "Green")
+    effectsRight = Button(image=None, pos=(1750, 560), textInput= "->", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
+    musicLeft = Button(image=None, pos=(1250, 465), textInput= "<-", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
+    musicRight = Button(image=None, pos=(1750, 465), textInput= "->", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
+    masterLeft = Button(image=None, pos=(1250, 360), textInput= "<-", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
+    masterRight = Button(image=None, pos=(1750, 360), textInput= "->", font= get_font(55), baseColor= "Black", hoveringColor= "Green")
 
-    audioBack = Button(image=None, pos=(960, 460), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
-
-    audioBack.changeColor(audioPosition)
-    audioBack.update(screen)
+    for button in [audioBack, effectsLeft, effectsRight, musicRight, musicLeft, masterRight, masterLeft]:
+      button.changeColor(audioPosition)
+      button.update(screen)
       
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -192,22 +191,71 @@ def audio():
       if event.type == pygame.MOUSEBUTTONDOWN:
         if audioBack.checkForInput(audioPosition):
           options()
+        elif masterLeft.checkForInput(audioPosition):
+          if masterVol > 0 and masterVol <= 100:
+            masterVol -= 5
+          elif masterVol == 0:
+            pass
+        elif masterRight.checkForInput(audioPosition):
+          if masterVol >= 0 and masterVol < 100:
+            masterVol += 5
+          elif masterVol == 100:
+            pass
+        elif musicLeft.checkForInput(audioPosition):
+          if musicVol > 0 and musicVol <= 100:
+            musicVol -= 5
+          elif musicVol == 0:
+            pass
+        elif musicRight.checkForInput(audioPosition):
+          if musicVol >= 0 and musicVol < 100:
+            musicVol += 5
+          elif musicVol == 100:
+            pass
+        elif effectsLeft.checkForInput(audioPosition):
+          if effectsVol > 0 and effectsVol <= 100:
+            effectsVol -= 5
+          elif effectsVol == 0:
+            pass
+        elif effectsRight.checkForInput(audioPosition):
+          if effectsVol >= 0 and effectsVol < 100:
+            effectsVol += 5
+          elif effectsVol == 100:
+            pass
 
+        
     pygame.display.update()
 
 def controls():
-  pygame.display.set_caption("Controls Options")
+  pygame.display.set_caption("Controls")
   
   while True:
       controlsPosition = pygame.mouse.get_pos()
   
       screen.fill("white")
   
-      controlsText = get_font(45).render("Controls Options", True, "Black")
+      controlsText = get_font(45).render("Controls", True, "Black")
       controlsRect = controlsText.get_rect(center=(960,260))
       screen.blit(controlsText, controlsRect)
-  
-      controlsBack = Button(image=None, pos=(960, 460), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
+      pick_piece_text = get_font(38).render("Picking a Piece", True, "Black")
+      pick_piece_Rect = pick_piece_text.get_rect(center=(420,400))
+      screen.blit(pick_piece_text, pick_piece_Rect)
+      piece_choice_text = get_font(32).render("> Press Left Mouse Button <", True, "Black")
+      pick_choice_Rect = piece_choice_text.get_rect(center=(1320,400))
+      screen.blit(piece_choice_text, pick_choice_Rect)
+      move_piece_text = get_font(38).render("Moving a Piece", True, "Black")
+      move_piece_rect = move_piece_text.get_rect(center=(400,500))
+      screen.blit(move_piece_text, move_piece_rect)
+      move_control_text = get_font(32).render("> Drag Left Mouse Button <", True, "Black")
+      move_control_rect = move_control_text.get_rect(center=(1300,500))
+      screen.blit(move_control_text, move_control_rect)
+      shoot_text = get_font(38).render("Shoot", True, "Black")
+      shoot_Rect = shoot_text.get_rect(center=(225,600))
+      screen.blit(shoot_text, shoot_Rect)
+      shoot_control = get_font(32).render("> Press Right Mouse Button <", True, "Black")
+      shoot_control_Rect = shoot_control.get_rect(center=(1335,600))
+      screen.blit(shoot_control, shoot_control_Rect)
+    
+      controlsBack = Button(image=None, pos=(960, 700), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "Green")
   
       controlsBack.changeColor(controlsPosition)
       controlsBack.update(screen)
@@ -228,25 +276,22 @@ def stats():
   while True:
     statsPosition = pygame.mouse.get_pos()
 
-    screen.fill("#32CD32")
+    screen.blit(stats_bg, (0,0))
 
-    titleText = get_font(42).render("Game Statistics", True, "Black")
-    titleRect = titleText.get_rect(center=(380,150))
+    titleText = get_font(40).render("Game Statistics", True, "Black")
+    titleRect = titleText.get_rect(center=(462,150))
     screen.blit(titleText, titleRect)
-    timeText = get_font(35).render("Total Play Time = " + str(playTime), True, "Black")
-    timeRect = timeText.get_rect(center=(380,250))
+    timeText = get_font(30).render("Total Play Time = " + str(playTime), True, "Black")
+    timeRect = timeText.get_rect(center=(470,250))
     screen.blit(timeText, timeRect)
-    enemyText = get_font(35).render("Enemies Defeated = " + str(enemiesDefeated), True, "Black")
-    enemyRect = enemyText.get_rect(center=(380,350))
+    enemyText = get_font(30).render("Enemies Defeated = " + str(enemiesDefeated), True, "Black")
+    enemyRect = enemyText.get_rect(center=(468,350))
     screen.blit(enemyText, enemyRect)
-    defeatedText = get_font(35).render("Times Defeated = " + str(timesDefeated), True, "Black")
-    defeatedRect = defeatedText.get_rect(center=(380,450))
+    defeatedText = get_font(30).render("Times Defeated = " + str(timesDefeated), True, "Black")
+    defeatedRect = defeatedText.get_rect(center=(455,450))
     screen.blit(defeatedText, defeatedRect)
-    completionText = get_font(35).render("Completion % = " + str(completionPercent), True, "Black")
-    completionRect = completionText.get_rect(center=(380,550))
-    screen.blit(completionText, completionRect)
 
-    statsBack = Button(image=None, pos=(380, 700), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "White")
+    statsBack = Button(image=None, pos=(525, 550), textInput= "BACK", font= get_font(45), baseColor= "Black", hoveringColor= "White")
 
     statsBack.changeColor(statsPosition)
     statsBack.update(screen)
@@ -296,8 +341,10 @@ def exit():
 def mainMenu():
   pygame.display.set_caption("Main Menu")
 
+  global frt
+
   while True:
-    screen.blit(background, (0,0))
+    screen.blit(menu_bg, (0,0))
     
     menuPosition = pygame.mouse.get_pos()
 
@@ -333,5 +380,4 @@ def mainMenu():
 
     pygame.display.update()
 
-#mainMenu()
-StartGame()
+mainMenu()
